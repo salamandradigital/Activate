@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actívate como Asistente Virtual · Salamandra Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sora',sans-serif;background:linear-gradient(135deg,#0C142B 0%,#1a2540 50%,#0d1e3a 100%);color:#fff;min-height:100vh}
+.hdr{background:linear-gradient(90deg,#0C142B,rgba(104,81,218,.15));border-bottom:1px solid rgba(48,196,214,.2);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.logo{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#30C4D6}
+.pi{font-size:12px;color:rgba(255,255,255,.4)}
+.prog{height:3px;background:rgba(255,255,255,.1);position:sticky;top:52px;z-index:99}
+.pf{height:100%;background:linear-gradient(90deg,#6851DA,#30C4D6);transition:width .5s}
+.wrap{max-width:660px;margin:0 auto;padding:36px 20px 80px}
+.sl{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#30C4D6;margin-bottom:8px;opacity:.8}
+h1,h2{font-size:clamp(22px,5vw,34px);font-weight:800;line-height:1.2;margin-bottom:12px;background:linear-gradient(135deg,#fff,rgba(255,255,255,.8));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:14px;color:rgba(255,255,255,.6);margin-bottom:26px;line-height:1.6}
+.card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:20px;margin-bottom:12px;cursor:pointer;transition:all .2s}
+.card:hover{background:rgba(255,255,255,.08)}
+.card.sel{background:rgba(104,81,218,.2);border-color:#6851DA;box-shadow:0 0 20px rgba(104,81,218,.3)}
+.ch{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.ct{font-size:15px;font-weight:700;color:#fff}
+.ck{color:#30C4D6;font-size:16px}
+.cd{font-size:13px;color:rgba(255,255,255,.55);line-height:1.5}
+.ar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;margin-bottom:10px}
+.at{font-size:14px;color:rgba(255,255,255,.85);flex:1}
+.bg{display:flex;gap:8px;margin-left:12px}
+.bs,.bn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;transition:all .2s;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.5)}
+.bs.a{border-color:#30C4D6;background:rgba(48,196,214,.2);color:#30C4D6}
+.bn.a{border-color:rgba(255,100,100,.5);background:rgba(255,100,100,.15);color:#ff6464}
+input,textarea{width:100%;padding:13px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:12px;color:#fff;font-size:14px;outline:none;margin-bottom:14px;font-family:'Sora',sans-serif;transition:border .2s}
+input:focus,textarea:focus{border-color:#6851DA}
+textarea{resize:vertical;min-height:90px}
+label{font-size:12px;font-weight:600;color:#30C4D6;margin-bottom:6px;display:block;letter-spacing:.5px}
+.hint{font-size:11px;color:rgba(255,255,255,.35);margin-bottom:8px;font-style:italic}
+.btn{width:100%;padding:15px;background:linear-gradient(135deg,#6851DA,#30C4D6);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;font-family:'Sora',sans-serif;transition:opacity .2s}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn2{width:100%;padding:13px;background:transparent;border:1px solid rgba(255,255,255,.2);border-radius:12px;color:rgba(255,255,255,.6);font-size:13px;font-weight:600;cursor:pointer;margin-top:8px;font-family:'Sora',sans-serif;transition:all .2s}
+.btn2:hover{background:rgba(255,255,255,.05)}
+.btn-pdf{width:100%;padding:16px;background:linear-gradient(135deg,#30C4D6,#6851DA);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-top:12px;font-family:'Sora',sans-serif;letter-spacing:.3px}
+.ib{background:rgba(48,196,214,.1);border:1px solid rgba(48,196,214,.25);border-radius:12px;padding:16px 18px;margin-bottom:22px}
+.ilm{font-size:11px;font-weight:700;color:#30C4D6;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase}
+.it{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6}
+.eb{background:rgba(104,81,218,.12);border:1px solid rgba(104,81,218,.3);border-radius:12px;padding:16px 18px;margin-bottom:10px;cursor:pointer;transition:all .2s}
+.eb:hover{background:rgba(104,81,218,.18)}
+.eb.sel{background:rgba(104,81,218,.25);border-color:#6851DA;box-shadow:0 0 15px rgba(104,81,218,.2)}
+.el{font-size:10px;font-weight:700;color:#30C4D6;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.et{font-size:13px;color:rgba(255,255,255,.85);line-height:1.6;font-style:italic}
+.pr{background:rgba(104,81,218,.15);border:1px solid rgba(104,81,218,.4);border-radius:12px;padding:18px;margin-bottom:20px}
+.pt{font-size:15px;color:#fff;line-height:1.7;font-style:italic;font-weight:500}
+.ss{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:18px;margin-bottom:14px}
+.ssl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#30C4D6;margin-bottom:8px}
+.ssv{font-size:14px;color:#fff;line-height:1.6}
+.mc{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px;margin-bottom:12px}
+.mp{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#30C4D6;margin-bottom:10px}
+.mt{font-size:12px;color:rgba(255,255,255,.8);line-height:1.7;font-style:italic;white-space:pre-wrap}
+.sml{font-size:12px;font-weight:700;color:#30C4D6;letter-spacing:1.5px;text-transform:uppercase;margin:22px 0 10px}
+.cta{background:linear-gradient(135deg,rgba(104,81,218,.3),rgba(48,196,214,.2));border:1px solid rgba(104,81,218,.4);border-radius:14px;padding:22px;text-align:center;margin-top:22px}
+.ctat{font-size:17px;font-weight:700;margin-bottom:8px;color:#fff}
+.ctad{font-size:13px;color:rgba(255,255,255,.7);margin-bottom:16px;line-height:1.6}
+.ctal{display:inline-block;padding:13px 28px;background:linear-gradient(135deg,#6851DA,#30C4D6);border-radius:10px;color:#fff;text-decoration:none;font-weight:700;font-size:14px}
+.wf{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.fr{display:flex;align-items:flex-start;gap:12px;padding:14px;background:rgba(255,255,255,.04);border-radius:12px;border:1px solid rgba(255,255,255,.08)}
+.fi{font-size:18px;flex-shrink:0}
+.ftt{font-size:14px;font-weight:700;margin-bottom:4px}
+.fd{font-size:12px;color:rgba(255,255,255,.5);line-height:1.4}
+.success-icon{font-size:38px;margin-bottom:10px;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="logo">Salamandra Digital</div>
+  <div class="pi" id="pi">Actívate como AV</div>
+</div>
+<div class="prog"><div class="pf" id="pf" style="width:0%"></div></div>
+<div class="wrap" id="app"></div>
+
+<script>
+const PERFILES=[
+  {id:1,nombre:"Organización",desc:"Ayudas a personas y equipos a ordenar su tiempo, sus tareas y sus eventos. Eres el motor que mantiene todo funcionando sin caos.",precio:"entre $8 y $15 USD por hora, o entre $150 y $300 USD por paquete mensual",svcs:[
+    {id:1,n:"Gestión de calendario y tareas",d:"Organizas la agenda y pendientes de tu cliente para que nada se pierda ni se olvide.",e:["Ayudo a emprendedores con agendas caóticas a organizar su calendario y tareas semanales para que dejen de perder citas y puedan enfocarse en lo que genera dinero.","Ayudo a profesionales independientes a gestionar su agenda y pendientes para que no se les escape ningún compromiso importante y aprovechen mejor su tiempo."]},
+    {id:2,n:"Organización de proyectos",d:"Estructuras y haces seguimiento de proyectos para que los equipos avancen sin caos.",e:["Ayudo a equipos pequeños a estructurar sus proyectos para que todos sepan qué hacer, en qué orden y sin depender de una sola persona.","Ayudo a emprendedores con varios proyectos activos a organizarlos para que nada se quede a medias y todo avance con claridad."]},
+    {id:3,n:"Coordinación de eventos",d:"Planificas y coordinas los detalles logísticos de eventos para que todo salga en orden.",e:["Ayudo a organizadores a coordinar cada detalle logístico de sus eventos para que el día llegue sin sorpresas y todo salga según lo planeado.","Ayudo a coaches y consultores a preparar sus eventos y talleres para que puedan enfocarse en el contenido mientras yo me encargo de la operación."]}
+  ]},
+  {id:2,nombre:"Comunicación",desc:"Gestionas cómo una marca o persona se comunica con el mundo — redes, clientes, mensajes. Eres la voz organizada detrás del negocio.",precio:"entre $100 y $250 USD por mes según la cantidad de publicaciones",svcs:[
+    {id:1,n:"Gestión de redes sociales",d:"Planificas, publicas y gestionas el contenido en redes para mantener presencia activa.",e:["Ayudo a emprendedores que no tienen tiempo a mantener sus redes activas para que no pierdan visibilidad ni clientes.","Ayudo a pequeños negocios a publicar contenido consistente en redes para que atraigan más clientes sin depender de una agencia."]},
+    {id:2,n:"Atención al cliente por email/chat",d:"Respondes consultas y brindas soporte para que ningún cliente quede sin atención.",e:["Ayudo a negocios digitales a responder a sus clientes de forma rápida y profesional para que nadie quede sin atención y la reputación del negocio crezca.","Ayudo a emprendedores a gestionar su bandeja de entrada para que ninguna consulta importante se pierda y sus clientes siempre reciban respuesta."]},
+    {id:3,n:"Redacción de contenido",d:"Escribes textos, captions y comunicaciones que conectan con la audiencia.",e:["Ayudo a marcas personales a crear textos y captions para sus redes para que su mensaje llegue claro y conecte con su audiencia.","Ayudo a emprendedores a comunicar lo que hacen de forma clara y atractiva para que sus publicaciones generen interés y ventas."]}
+  ]},
+  {id:3,nombre:"Soporte Administrativo",desc:"Manejas documentos, reportes y coordinación. Eres quien pone orden en el papel y en los procesos.",precio:"entre $8 y $15 USD por hora, o entre $150 y $300 USD por paquete mensual",svcs:[
+    {id:1,n:"Gestión de documentos y reportes",d:"Organizas, clasificas y mantienes al día los archivos y reportes de un negocio o persona.",e:["Ayudo a dueños de pequeños negocios a mantener sus documentos organizados para que encuentren todo cuando lo necesitan y no pierdan tiempo buscando.","Ayudo a profesionales independientes a llevar sus reportes al día para que tengan información clara sobre su negocio sin dedicarle horas a eso."]},
+    {id:2,n:"Transcripción y edición",d:"Conviertes audios, videos o notas en documentos limpios y listos para usar.",e:["Ayudo a coaches y consultores a convertir sus audios y videos en documentos limpios para que su contenido quede listo para usar sin que ellos tengan que escribir.","Ayudo a profesionales a transcribir y editar sus grabaciones para que tengan materiales escritos de calidad sin perder tiempo en esa tarea."]},
+    {id:3,n:"Coordinación administrativa",d:"Gestionas procesos, comunicaciones internas y tareas operativas para que todo fluya.",e:["Ayudo a dueños de pequeños negocios a mantener sus procesos administrativos organizados para que puedan enfocarse en crecer sin perder el control de su operación.","Ayudo a emprendedores ocupados a coordinar sus tareas y comunicaciones internas para que nada se pierda y todo avance sin que ellos tengan que estar encima de cada detalle."]}
+  ]},
+  {id:4,nombre:"Gestión Digital Básica",desc:"Trabajas con datos, automatizaciones y soporte técnico sencillo. Eres quien conecta las piezas digitales.",precio:"entre $150 y $350 USD por mes dependiendo del alcance",svcs:[
+    {id:1,n:"Automatización de procesos",d:"Configuras herramientas que ahorran tiempo eliminando tareas manuales repetitivas.",e:["Ayudo a negocios digitales a automatizar sus procesos repetitivos para que su equipo deje de hacer tareas manuales y pueda enfocarse en crecer.","Ayudo a emprendedores a conectar sus herramientas digitales para que la información fluya sola y no tengan que hacer el mismo trabajo dos veces."]},
+    {id:2,n:"Gestión de datos y bases de datos",d:"Organizas y mantienes bases de datos limpias y actualizadas para tomar mejores decisiones.",e:["Ayudo a emprendedores a mantener sus datos organizados para que tomen mejores decisiones sin perder tiempo buscando información.","Ayudo a pequeños negocios a tener sus bases de datos limpias y actualizadas para que siempre sepan qué está pasando con sus clientes y su operación."]},
+    {id:3,n:"Soporte técnico básico",d:"Resuelves problemas tecnológicos cotidianos para que el negocio no se detenga.",e:["Ayudo a emprendedores a resolver los problemas tecnológicos del día a día para que su negocio no se detenga por una falla técnica que nadie sabe cómo solucionar.","Ayudo a pequeños negocios a mantener sus herramientas digitales funcionando para que el equipo pueda trabajar sin interrupciones técnicas."]}
+  ]},
+  {id:5,nombre:"Apoyo a Negocios Digitales",desc:"Apoyas tiendas online, herramientas de IA y email marketing. Eres quien sostiene la operación digital de un negocio.",precio:"entre $150 y $400 USD por mes dependiendo del alcance",svcs:[
+    {id:1,n:"Gestión de tiendas online",d:"Administras productos, pedidos y atención en plataformas como Shopify, Etsy o Amazon.",e:["Ayudo a emprendedoras con tiendas en Shopify a mantener su catálogo actualizado y sus pedidos organizados para que puedan enfocarse en vender sin perder tiempo en tareas operativas.","Ayudo a pequeños negocios que venden en Etsy o Amazon a gestionar sus productos y atención al cliente para que su tienda funcione sin que ellas estén pendientes de todo."]},
+    {id:2,n:"Asistencia con herramientas de IA y automatización básica",d:"Ayudas a negocios a implementar y usar herramientas que ahorran tiempo y procesos manuales.",e:["Ayudo a emprendedores a implementar herramientas de IA en su negocio para que ahorren tiempo en tareas repetitivas y puedan enfocarse en lo que realmente importa.","Ayudo a pequeños negocios a usar automatizaciones básicas para que sus procesos corran solos y el equipo deje de hacer trabajo manual innecesario."]},
+    {id:3,n:"Gestión de email marketing y CRM",d:"Manejas listas de contactos, campañas de email y seguimiento de clientes.",e:["Ayudo a negocios digitales a mantener su lista de contactos organizada y sus campañas de email activas para que no pierdan clientes por falta de seguimiento.","Ayudo a emprendedores a gestionar su CRM y comunicaciones por email para que cada cliente reciba atención personalizada sin que ellos tengan que hacerlo todo manualmente."]}
+  ]}
+];
+
+const AF=["Organizo bien mi tiempo y el de otros","Me comunico fácilmente con diferentes personas","Aprendo herramientas digitales con rapidez","Soy ordenada con documentos e información","Me gusta resolver problemas de forma práctica"];
+
+let S={paso:0,nombre:"",resp:{},pid:null,sid:null,puvOp:null,puvC:{cl:"",pr:"",re:""},puvF:"",of:{inc:"",pre:"",dur:""},msgs:null};
+
+const gP=()=>PERFILES.find(p=>p.id===S.pid);
+const gS=()=>gP()?.svcs.find(s=>s.id===S.sid);
+
+function upd(){
+  const pct=(S.paso/7)*100;
+  document.getElementById('pf').style.width=pct+'%';
+  const pi=document.getElementById('pi');
+  if(S.paso===0)pi.textContent='Actívate como AV';
+  else if(S.paso===7)pi.textContent='✓ Completado';
+  else pi.textContent=`Paso ${S.paso} de 6`;
+}
+
+function rnd(){
+  upd();
+  window.scrollTo(0,0);
+  const a=document.getElementById('app');
+  if(S.paso===0)a.innerHTML=r0();
+  else if(S.paso===1)a.innerHTML=r1();
+  else if(S.paso===2)a.innerHTML=r2();
+  else if(S.paso===3)a.innerHTML=r3();
+  else if(S.paso===4)a.innerHTML=r4();
+  else if(S.paso===5)a.innerHTML=r5();
+  else if(S.paso===6)a.innerHTML=r6();
+  else if(S.paso===7)a.innerHTML=r7();
+  ev();
+}
+
+function r0(){return`
+<div style="text-align:center;margin-bottom:36px">
+  <div style="font-size:46px;margin-bottom:14px">⚡</div>
+  <h1>Actívate como<br>Asistente Virtual</h1>
+  <p class="sub" style="max-width:440px;margin:0 auto 28px">En menos de una hora vas a saber exactamente qué ofrecer, a quién y cómo presentarlo — con mensajes y PDF listos para usar.</p>
+</div>
+<div class="wf">
+  <div class="fr"><span class="fi">⚡</span><div><div class="ftt">Descubres lo que ya tienes</div><div class="fd">Identificas tus habilidades reales sin necesitar experiencia perfecta.</div></div></div>
+  <div class="fr"><span class="fi">🎯</span><div><div class="ftt">Eliges un servicio concreto</div><div class="fd">Solo 3 opciones claras. Sin listas infinitas. Sin parálisis.</div></div></div>
+  <div class="fr"><span class="fi">📄</span><div><div class="ftt">Descargas tu PDF profesional</div><div class="fd">Tu propuesta y mensajes en un documento listo para usar hoy mismo.</div></div></div>
+</div>
+<label>¿Cómo te llamas?</label>
+<input type="text" id="ni" placeholder="Tu nombre..." value="${S.nombre}">
+<button class="btn" id="be" ${!S.nombre.trim()?'disabled':''}>Empezar →</button>`;}
+
+function r1(){return`
+<div class="sl">Paso 1 de 6</div>
+<h2>Hola, ${S.nombre}.<br>¿Cómo trabajas naturalmente?</h2>
+<p class="sub">Responde SÍ o NO a cada afirmación. No hay respuestas correctas — esto es para identificar en qué eres naturalmente buena.</p>
+${AF.map((a,i)=>`
+<div class="ar">
+  <span class="at">${a}</span>
+  <div class="bg">
+    <button class="bs ${S.resp[i]===true?'a':''}" data-i="${i}" data-v="t">SÍ</button>
+    <button class="bn ${S.resp[i]===false?'a':''}" data-i="${i}" data-v="f">NO</button>
+  </div>
+</div>`).join('')}
+<button class="btn" id="bd" ${Object.keys(S.resp).length<5?'disabled':''} style="margin-top:20px">Ver mis fortalezas →</button>`;}
+
+function r2(){
+  const r=S.resp;
+  const d=[r[0]&&r[3]?"Eres buena organizando y manteniendo información en orden. ":"",r[1]?"Te comunicas con facilidad con diferentes personas. ":"",r[2]?"Aprendes herramientas digitales con rapidez. ":"",r[4]?"Resuelves problemas de forma práctica. ":""].join('')+"Eso tiene valor real como asistente virtual.";
+  return`
+<div class="sl">Paso 2 de 6</div>
+<h2>Tus fortalezas,<br>${S.nombre}.</h2>
+<div class="ib"><div class="it">${d}</div></div>
+<p class="sub">Elige el perfil que más te representa. Lee cada descripción con calma.</p>
+${PERFILES.map(p=>`
+<div class="card ${S.pid===p.id?'sel':''}" data-p="${p.id}">
+  <div class="ch"><span class="ct">${p.nombre}</span>${S.pid===p.id?'<span class="ck">✓</span>':''}</div>
+  <div class="cd">${p.desc}</div>
+</div>`).join('')}
+<button class="btn" id="bp" ${!S.pid?'disabled':''}>Confirmar perfil →</button>`;}
+
+function r3(){
+  const pf=gP();
+  return`
+<div class="sl">Paso 3 de 6</div>
+<h2>Tu perfil es<br>${pf?.nombre}.</h2>
+<p class="sub">Estos son los 3 servicios que corresponden exactamente a tu perfil. Elige uno — el que más te resuene para empezar.</p>
+${pf?.svcs.map(s=>`
+<div class="card ${S.sid===s.id?'sel':''}" data-s="${s.id}">
+  <div class="ch"><span class="ct">${s.n}</span>${S.sid===s.id?'<span class="ck">✓</span>':''}</div>
+  <div class="cd">${s.d}</div>
+</div>`).join('')}
+<button class="btn" id="bsv" ${!S.sid?'disabled':''}>Confirmar servicio →</button>`;}
+
+function r4(){
+  const sv=gS();
+  return`
+<div class="sl">Paso 4 de 6</div>
+<h2>Tu propuesta<br>de valor.</h2>
+<p class="sub">Mira cómo se ve una buena propuesta para <strong style="color:#30C4D6">${sv?.n}</strong>. ¿Cuál se parece más a lo que quieres ofrecer?</p>
+<div class="eb ${S.puvOp==='A'?'sel':''}" data-puv="A">
+  <div class="el">Opción A</div>
+  <div class="et">"${sv?.e[0]}"</div>
+</div>
+<div class="eb ${S.puvOp==='B'?'sel':''}" data-puv="B">
+  <div class="el">Opción B</div>
+  <div class="et">"${sv?.e[1]}"</div>
+</div>
+<div class="eb ${S.puvOp==='C'?'sel':''}" data-puv="C">
+  <div class="el">Construir la mía</div>
+  <div class="et" style="font-style:normal;color:rgba(255,255,255,.5)">Prefiero escribir mi propia propuesta con tu guía.</div>
+</div>
+${S.puvOp==='C'?`
+<div style="margin-top:18px">
+  <label>¿A qué tipo de cliente quieres ayudar?</label>
+  <div class="hint">Ej: coaches, médicos, emprendedoras, pequeños negocios...</div>
+  <input type="text" id="pc" placeholder="Tu tipo de cliente..." value="${S.puvC.cl}">
+  <label>¿Qué problema tienen que tú puedes resolver?</label>
+  <div class="hint">Ej: no tienen tiempo para organizar sus tareas, sus archivos están desorganizados...</div>
+  <input type="text" id="pp" placeholder="El problema principal..." value="${S.puvC.pr}">
+  <label>¿Qué resultado concreto obtienen cuando trabajas con ellos?</label>
+  <div class="hint">Ej: tienen claridad sobre qué hacer cada día, recuperan horas libres...</div>
+  <input type="text" id="pre" placeholder="El resultado que entregas..." value="${S.puvC.re}">
+</div>`:''}
+<button class="btn" id="bpuv" ${!S.puvOp||(S.puvOp==='C'&&(!S.puvC.cl||!S.puvC.pr||!S.puvC.re))?'disabled':''}>Generar mi propuesta →</button>`;}
+
+function r5(){return`
+<div class="sl">Paso 5 de 6</div>
+<h2>Tu propuesta,<br>${S.nombre}.</h2>
+<div class="pr">
+  <div style="font-size:10px;font-weight:700;color:#30C4D6;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">Tu propuesta de valor</div>
+  <div class="pt">"${S.puvF}"</div>
+</div>
+<p class="sub">¿Quieres ajustar algo antes de continuar?</p>
+<textarea id="pe">${S.puvF}</textarea>
+<button class="btn" id="bcp">Esta es mi propuesta →</button>`;}
+
+function r6(){
+  const pf=gP();const sv=gS();
+  return`
+<div class="sl">Paso 6 de 6</div>
+<h2>Tu mini oferta<br>lista para enviar.</h2>
+<div class="ib">
+  <div class="ilm">Referencia del mercado</div>
+  <div class="it">Para <strong>${sv?.n}</strong>, las asistentes virtuales que están empezando cobran <strong>${pf?.precio}</strong>.<br><br>Este es tu primer cliente — no tienes que cobrar el máximo. Elige un precio con el que te sientas cómoda para empezar.</div>
+</div>
+<label>¿Qué incluye tu servicio?</label>
+<div class="hint">Ej: organización de agenda semanal, seguimiento de tareas pendientes, reunión semanal de 30 min...</div>
+<textarea id="oi" placeholder="Describe qué vas a entregar exactamente...">${S.of.inc}</textarea>
+<label>¿Cuál es tu precio inicial?</label>
+<input type="text" id="op" placeholder="Ej: $150 USD por mes" value="${S.of.pre}">
+<label>¿Cuál es la duración o modalidad?</label>
+<div class="hint">Ej: paquete mensual, por horas, prueba de 2 semanas...</div>
+<input type="text" id="od" placeholder="Ej: paquete mensual de 10 horas" value="${S.of.dur}">
+<button class="btn" id="bm" ${!S.of.inc||!S.of.pre||!S.of.dur?'disabled':''}>Generar mis mensajes →</button>`;}
+
+function r7(){
+  const pf=gP();const sv=gS();const m=S.msgs;
+  return`
+<div style="text-align:center;margin-bottom:28px">
+  <div class="success-icon">✅</div>
+  <div style="font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#30C4D6;margin-bottom:8px">Completado</div>
+  <h2>Tu primer servicio<br>está definido, ${S.nombre}.</h2>
+</div>
+<div class="ss"><div class="ssl">Tu perfil profesional</div><div class="ssv"><strong>${pf?.nombre}</strong> · ${sv?.n}</div></div>
+<div class="ss"><div class="ssl">Tu propuesta de valor</div><div class="ssv" style="font-style:italic">"${S.puvF}"</div></div>
+<div class="ss"><div class="ssl">Tu oferta</div><div class="ssv">${S.of.inc}<br><strong style="color:#30C4D6">${S.of.pre}</strong> · ${S.of.dur}</div></div>
+<div class="sml">Tus mensajes listos</div>
+<div class="mc"><div class="mp">📱 WhatsApp</div><div class="mt">${m?.wa}</div></div>
+<div class="mc"><div class="mp">💬 DM (Redes sociales)</div><div class="mt">${m?.dm}</div></div>
+<div class="mc"><div class="mp">📧 Email</div><div class="mt">${m?.em}</div></div>
+<button class="btn-pdf" id="bpdf">⬇ Descargar mi PDF profesional</button>
+<div class="ss" style="margin-top:18px;background:rgba(48,196,214,.08);border-color:rgba(48,196,214,.25)">
+  <div class="ssl">Tu siguiente paso concreto</div>
+  <div class="ssv">Practica este mensaje con una persona de confianza — una amiga, familiar o compañera — antes de enviarlo a un cliente real. Dilo en voz alta, recibe retroalimentación y ajusta lo que no suene natural. Eso es lo que marca la diferencia entre tenerlo escrito y saber usarlo.</div>
+</div>
+<div class="cta">
+  <div class="ctat">¿Quieres construir tu carrera como asistente virtual con estructura real?</div>
+  <div class="ctad">Ese es exactamente el trabajo que se hace en el taller de Salamandra Digital.</div>
+  <a href="https://go.salamandradigital.co/impulsa" target="_blank" class="ctal">Ver el taller →</a>
+</div>`;}
+
+function genMsgs(){
+  const pf=gP();const sv=gS();
+  return{
+    wa:`Hola [nombre], soy ${S.nombre}, asistente virtual especializada en ${sv?.n?.toLowerCase()}. ${S.puvF} Mi servicio incluye ${S.of.inc}. Todo por ${S.of.pre} — ${S.of.dur}. ¿Tienes 15 minutos esta semana para contarme cómo está tu operación?`,
+    dm:`Hola [nombre], vi tu contenido y creo que puedo ayudarte. Soy ${S.nombre} y trabajo con emprendedores que necesitan apoyo en ${sv?.n?.toLowerCase()}. ${S.puvF} Ofrezco ${S.of.inc} — ${S.of.pre} / ${S.of.dur}. ¿Te interesa saber cómo funcionaría en tu caso?`,
+    em:`Asunto: Apoyo en ${sv?.n} — Asistente Virtual\n\nHola [nombre],\n\nMi nombre es ${S.nombre} y soy asistente virtual especializada en ${sv?.n?.toLowerCase()}.\n\n${S.puvF}\n\nMi servicio incluye: ${S.of.inc}.\n\nInversión: ${S.of.pre} · Duración: ${S.of.dur}\n\nSi te interesa, con gusto agendamos una llamada corta.\n\n${S.nombre}\nAsistente Virtual · ${pf?.nombre}`
+  };
+}
+
+function generarPDF(){
+  const pf=gP();const sv=gS();const m=S.msgs;
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const W=210;const M=20;const CW=W-M*2;
+  const PAGE_H=297;const FOOTER_H=18;const SAFE_BOTTOM=PAGE_H-FOOTER_H-10;
+
+  function drawHeader(){
+    doc.setFillColor(12,20,43);doc.rect(0,0,W,58,'F');
+    doc.setFillColor(104,81,218);doc.rect(0,53,W,3,'F');
+    doc.setFillColor(48,196,214);doc.rect(0,56,W,2,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(8);doc.setFont('helvetica','bold');
+    doc.text('SALAMANDRA DIGITAL',M,16);
+    doc.setFontSize(20);
+    doc.text('Tu Primer Servicio como AV',M,30);
+    doc.setFontSize(9);doc.setFont('helvetica','normal');
+    doc.setTextColor(180,220,230);
+    doc.text('Definido con claridad y listo para presentar',M,39);
+    doc.setFontSize(7);doc.setTextColor(130,145,170);
+    doc.text(`${S.nombre} · ${new Date().toLocaleDateString('es-CO')} · Actívate como Asistente Virtual`,M,48);
+  }
+
+  function drawFooter(){
+    doc.setFillColor(12,20,43);doc.rect(0,PAGE_H-FOOTER_H,W,FOOTER_H,'F');
+    doc.setTextColor(48,196,214);doc.setFontSize(8);doc.setFont('helvetica','bold');
+    doc.text('go.salamandradigital.co/impulsa',M,PAGE_H-6);
+    doc.setTextColor(130,145,170);doc.setFont('helvetica','normal');doc.setFontSize(7);
+    doc.text('Salamandra Digital · Actívate como Asistente Virtual',W-M,PAGE_H-6,{align:'right'});
+  }
+
+  function checkNewPage(needed){
+    if(y+needed>SAFE_BOTTOM){
+      drawFooter();
+      doc.addPage();
+      drawFooter();
+      y=20;
+    }
+  }
+
+  function bloque(titulo,contenido,bg){
+    const c=bg||[245,243,255];
+    doc.setFontSize(10);doc.setFont('helvetica','normal');
+    const lines=doc.splitTextToSize(contenido,CW-10);
+    const h=lines.length*5+14;
+    checkNewPage(h+6);
+    doc.setFillColor(...c);
+    doc.roundedRect(M,y,CW,h,2,2,'F');
+    doc.setTextColor(104,81,218);doc.setFontSize(7);doc.setFont('helvetica','bold');
+    doc.text(titulo.toUpperCase(),M+5,y+6);
+    doc.setTextColor(20,20,40);doc.setFontSize(10);doc.setFont('helvetica','normal');
+    doc.text(lines,M+5,y+12);
+    y+=h+6;
+  }
+
+  function bloqueOscuro(titulo,contenido){
+    doc.setFontSize(9);doc.setFont('helvetica','normal');
+    const lines=doc.splitTextToSize(contenido,CW-10);
+    const h=lines.length*4.8+14;
+    checkNewPage(h+6);
+    doc.setFillColor(104,81,218);
+    doc.roundedRect(M,y,CW,h,2,2,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(7);doc.setFont('helvetica','bold');
+    doc.text(titulo.toUpperCase(),M+5,y+6);
+    doc.setFontSize(9);doc.setFont('helvetica','normal');
+    doc.text(lines,M+5,y+12);
+    y+=h+6;
+  }
+
+  drawHeader();
+  drawFooter();
+  let y=68;
+
+  bloque('Tu perfil profesional',`${pf?.nombre} — ${sv?.n}`);
+  bloque('Tu propuesta de valor',`"${S.puvF}"`,[235,245,255]);
+  bloque('Qué incluye tu servicio',S.of.inc);
+  bloque('Precio y modalidad',`${S.of.pre} · ${S.of.dur}`,[235,245,255]);
+
+  y+=4;
+  bloqueOscuro('Mensaje WhatsApp',m?.wa||'');
+  bloqueOscuro('Mensaje DM (Redes sociales)',m?.dm||'');
+  bloqueOscuro('Mensaje Email',m?.em||'');
+
+  y+=4;
+  doc.setFontSize(9);doc.setFont('helvetica','normal');
+  const sigLines=doc.splitTextToSize('Practica este mensaje con una persona de confianza antes de enviarlo a un cliente real. Dilo en voz alta y ajusta lo que no suene natural.',CW-12);
+  const sigH=sigLines.length*4.5+16;
+  checkNewPage(sigH+6);
+  doc.setFillColor(48,196,214);
+  doc.roundedRect(M,y,CW,sigH,3,3,'F');
+  doc.setTextColor(12,20,43);doc.setFontSize(8);doc.setFont('helvetica','bold');
+  doc.text('TU SIGUIENTE PASO CONCRETO',M+6,y+7);
+  doc.setFontSize(9);doc.setFont('helvetica','normal');
+  doc.text(sigLines,M+6,y+13);
+  y+=sigH+8;
+
+  const tallerLines=doc.splitTextToSize('Si quieres profundizar en esto y construir tu carrera como asistente virtual con estructura real, acompañamiento y herramientas concretas — ese es exactamente el trabajo que se hace en el taller de Salamandra Digital.',CW-12);
+  const tallerH=tallerLines.length*4.8+20;
+  checkNewPage(tallerH+6);
+  doc.setFillColor(12,20,43);
+  doc.roundedRect(M,y,CW,tallerH,3,3,'F');
+  doc.setFillColor(104,81,218);doc.roundedRect(M,y,4,tallerH,2,2,'F');
+  doc.setTextColor(48,196,214);doc.setFontSize(8);doc.setFont('helvetica','bold');
+  doc.text('¿LISTA PARA EL SIGUIENTE NIVEL?',M+10,y+8);
+  doc.setTextColor(220,220,240);doc.setFontSize(9);doc.setFont('helvetica','normal');
+  doc.text(tallerLines,M+10,y+15);
+  doc.setTextColor(48,196,214);doc.setFontSize(9);doc.setFont('helvetica','bold');
+  doc.text('go.salamandradigital.co/impulsa',M+10,y+tallerH-5);
+
+  const fname=`Activa_${S.nombre.replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.pdf`;
+  doc.save(fname);
+}
+
+function ev(){
+  const ni=document.getElementById('ni');
+  if(ni){ni.addEventListener('input',e=>{S.nombre=e.target.value;const b=document.getElementById('be');if(b)b.disabled=!S.nombre.trim();});}
+  const be=document.getElementById('be');
+  if(be)be.addEventListener('click',()=>{if(S.nombre.trim()){S.paso=1;rnd();}});
+
+  document.querySelectorAll('.bs').forEach(b=>b.addEventListener('click',()=>{S.resp[+b.dataset.i]=true;rnd();}));
+  document.querySelectorAll('.bn').forEach(b=>b.addEventListener('click',()=>{S.resp[+b.dataset.i]=false;rnd();}));
+  const bd=document.getElementById('bd');
+  if(bd)bd.addEventListener('click',()=>{S.paso=2;rnd();});
+
+  document.querySelectorAll('[data-p]').forEach(c=>c.addEventListener('click',()=>{S.pid=+c.dataset.p;S.sid=null;S.puvOp=null;rnd();}));
+  const bp=document.getElementById('bp');
+  if(bp)bp.addEventListener('click',()=>{if(S.pid){S.paso=3;rnd();}});
+
+  document.querySelectorAll('[data-s]').forEach(c=>c.addEventListener('click',()=>{S.sid=+c.dataset.s;S.puvOp=null;rnd();}));
+  const bsv=document.getElementById('bsv');
+  if(bsv)bsv.addEventListener('click',()=>{if(S.sid){S.paso=4;rnd();}});
+
+  document.querySelectorAll('[data-puv]').forEach(b=>b.addEventListener('click',()=>{
+    S.puvOp=b.dataset.puv;
+    const sv=gS();
+    if(S.puvOp==='A')S.puvF=sv.e[0];
+    else if(S.puvOp==='B')S.puvF=sv.e[1];
+    rnd();
+  }));
+  ['pc','pp','pre'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.addEventListener('input',e=>{
+      const k=id==='pc'?'cl':id==='pp'?'pr':'re';
+      S.puvC[k]=e.target.value;
+      const b=document.getElementById('bpuv');
+      if(b)b.disabled=!S.puvC.cl||!S.puvC.pr||!S.puvC.re;
+    });
+  });
+  const bpuv=document.getElementById('bpuv');
+  if(bpuv)bpuv.addEventListener('click',()=>{
+    if(S.puvOp==='C')S.puvF=`Ayudo a ${S.puvC.cl} a ${S.puvC.pr} para que ${S.puvC.re}.`;
+    S.paso=5;rnd();
+  });
+
+  const pe=document.getElementById('pe');if(pe)pe.addEventListener('input',e=>{S.puvF=e.target.value;});
+  const bcp=document.getElementById('bcp');if(bcp)bcp.addEventListener('click',()=>{S.paso=6;rnd();});
+
+  ['oi','op','od'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.addEventListener('input',e=>{
+      const k=id==='oi'?'inc':id==='op'?'pre':'dur';
+      S.of[k]=e.target.value;
+      const b=document.getElementById('bm');
+      if(b)b.disabled=!S.of.inc||!S.of.pre||!S.of.dur;
+    });
+  });
+  const bm=document.getElementById('bm');
+  if(bm)bm.addEventListener('click',()=>{
+    if(S.of.inc&&S.of.pre&&S.of.dur){S.msgs=genMsgs();S.paso=7;rnd();}
+  });
+
+  const bpdf=document.getElementById('bpdf');
+  if(bpdf)bpdf.addEventListener('click',generarPDF);
+}
+
+rnd();
+</script>
+</body>
+</html>
